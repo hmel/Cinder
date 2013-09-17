@@ -1,0 +1,128 @@
+include_directories(../../include/
+  ../libtess2/
+  ../linebreak/
+  ../AntTweakBar/
+  )
+
+set(APP_srcs
+  #app/AppBasic.cpp
+  #app/App.cpp
+  #app/AppImplMswBasic.cpp
+  #app/AppImplMsw.cpp
+  #app/AppImplMswRendererGdi.cpp
+  #app/AppImplMswRendererGl.cpp
+  #app/AppImplMswScreenSaver.cpp
+  #app/AppScreenSaver.cpp
+  app/KeyEvent.cpp
+  #app/Renderer.cpp
+  #app/Window.cpp
+)
+
+set(IP_srcs
+  ip/Blend.cpp
+  ip/EdgeDetect.cpp
+  ip/Fill.cpp
+  ip/Flip.cpp
+  ip/Grayscale.cpp
+  ip/Hdr.cpp
+  ip/Premultiply.cpp
+  ip/Resize.cpp
+  ip/Threshold.cpp
+  ip/Trim.cpp
+  )
+
+set(ANTTWEAKBAR_srcs
+  ../AntTweakBar/LoadOGLCore.cpp
+  ../AntTweakBar/LoadOGL.cpp
+  ../AntTweakBar/TwBar.cpp
+  ../AntTweakBar/TwColors.cpp
+  #../AntTweakBar/TwDirect3D10.cpp
+  #../AntTweakBar/TwDirect3D11.cpp
+  #../AntTweakBar/TwDirect3D9.cpp
+  ../AntTweakBar/TwFonts.cpp
+  ../AntTweakBar/TwMgr.cpp
+  ../AntTweakBar/TwOpenGLCore.cpp
+  ../AntTweakBar/TwOpenGL.cpp
+  ../AntTweakBar/TwPrecomp.cpp
+)
+
+set(GL_srcs
+  gl/DisplayList.cpp
+  gl/Fbo.cpp
+  gl/gl.cpp
+  gl/GlslProg.cpp
+  gl/Light.cpp
+  gl/Material.cpp
+  gl/StereoAutoFocuser.cpp
+  gl/Texture.cpp
+  gl/TextureFont.cpp
+  gl/TileRender.cpp
+  gl/Vbo.cpp
+)
+
+add_library(cinder SHARED
+  params/Params.cpp
+  Area.cpp
+  AxisAlignedBox.cpp
+  BandedMatrix.cpp
+  Base64.cpp
+  BSpline.cpp
+  BSplineFit.cpp
+  Buffer.cpp
+  Camera.cpp
+  #Capture.cpp
+  #CaptureImplDirectShow.cpp
+  Channel.cpp
+  CinderMath.cpp
+  Clipboard.cpp
+  Color.cpp
+  ConvexHull.cpp
+  DataSource.cpp
+  DataTarget.cpp
+  Display.cpp
+  Exception.cpp
+  #Font.cpp
+  Frustum.cpp
+  ImageIo.cpp
+  #ImageSourceFileQuartz.cpp
+  #ImageSourceFileWic.cpp
+  ImageSourcePng.cpp
+  #ImageTargetFileQuartz.cpp
+  #ImageTargetFileWic.cpp
+  #Json.cpp
+  Matrix.cpp
+  ObjLoader.cpp
+  Path2d.cpp
+  Perlin.cpp
+  Plane.cpp
+  PolyLine.cpp
+  Rand.cpp
+  Ray.cpp
+  Rect.cpp
+  #Serial.cpp
+  Shape2d.cpp
+  Sphere.cpp
+  Stream.cpp
+  Surface.cpp
+  #System.cpp
+  Text.cpp
+  Timeline.cpp
+  TimelineItem.cpp
+  #Timer.cpp
+  Triangulate.cpp
+  TriMesh.cpp
+  Tween.cpp
+  Unicode.cpp
+  Url.cpp
+  UrlImplCurl.cpp
+  #UrlImplWinInet.cpp
+  #Utilities.cpp
+  Xml.cpp
+  ${APP_srcs}
+  ${IP_srcs}
+  ${ANTTWEAKBAR_srcs}
+  ${GL_srcs}
+  )
+
+set_target_properties(cinder PROPERTIES
+  COMPILE_FLAGS -std=c++11)
