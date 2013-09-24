@@ -41,6 +41,8 @@
 	#import <Foundation/NSFileManager.h>
 	#include <cxxabi.h>
 	#include <execinfo.h>
+#elif defined( CINDER_LINUX )
+
 #else
 	#include <windows.h>
 	#include <Shlwapi.h>
@@ -66,6 +68,8 @@ fs::path expandPath( const fs::path &path )
 	NSString *pathNS = [NSString stringWithCString:path.c_str() encoding:NSUTF8StringEncoding];
 	NSString *resultPath = [pathNS stringByStandardizingPath];
 	result = string( [resultPath cStringUsingEncoding:NSUTF8StringEncoding] );
+#elif defined( CINDER_LINUX )
+        
 #else
 	char buffer[MAX_PATH];
 	::PathCanonicalizeA( buffer, path.string().c_str() );
@@ -83,6 +87,8 @@ fs::path getHomeDirectory()
 	NSString *home = ::NSHomeDirectory();
 	result = [home cStringUsingEncoding:NSUTF8StringEncoding];
 	result += "/";
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	char buffer[MAX_PATH];
 	::SHGetFolderPathA( 0, CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, buffer );
@@ -101,6 +107,8 @@ fs::path getDocumentsDirectory()
 	NSArray *arrayPaths = ::NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES );
 	NSString *docDir = [arrayPaths objectAtIndex:0];
 	return cocoa::convertNsString( docDir ) + "/";
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	char buffer[MAX_PATH];
 	::SHGetFolderPathA( 0, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, buffer );
@@ -116,6 +124,8 @@ fs::path getTemporaryDirectory()
 #if defined( CINDER_COCOA )
 	NSString *docDir = ::NSTemporaryDirectory();
 	return cocoa::convertNsString( docDir );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	DWORD result = ::GetTempPathW( 0, L"" );
 	if( ! result )
@@ -137,6 +147,8 @@ fs::path getTemporaryFilePath( const std::string &prefix )
 	char path[2048];
 	sprintf( path, "%s%sXXXXXX", getTemporaryDirectory().c_str(), prefix.c_str() );
 	return string( mktemp( path ) );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	TCHAR tempFileName[MAX_PATH]; 
 	DWORD result = ::GetTempPathW( 0, L"" );
@@ -198,6 +210,8 @@ bool createDirectories( const fs::path &path, bool createParents )
 #if defined( CINDER_COCOA )
 	NSString *pathNS = [NSString stringWithCString:dirPath.c_str() encoding:NSUTF8StringEncoding];
 	return static_cast<bool>( [[NSFileManager defaultManager] createDirectoryAtPath:pathNS withIntermediateDirectories:YES attributes:nil error:nil] );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	return ::SHCreateDirectoryExA( NULL, dirPath.string().c_str(), NULL ) == ERROR_SUCCESS;
 #endif
@@ -225,6 +239,8 @@ void deleteFile( const fs::path &path )
 {
 #if defined( CINDER_COCOA )
 	unlink( path.c_str() );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	if( ! ::DeleteFileW( path.wstring().c_str() ) ) {
 		DWORD err = GetLastError();
@@ -275,6 +291,8 @@ wstring toUtf16( const string &utf8 )
 	}
 
 	return wstring( &resultString[0] );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	NSString *utf8NS = [NSString stringWithCString:utf8.c_str() encoding:NSUTF8StringEncoding];
 	return wstring( reinterpret_cast<const wchar_t*>( [utf8NS cStringUsingEncoding:NSUTF16LittleEndianStringEncoding] ) );
@@ -298,6 +316,8 @@ string toUtf8( const wstring &utf16 )
 	}
 
 	return string( &resultString[0] );
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	NSString *utf16NS = [NSString stringWithCString:reinterpret_cast<const char*>( utf16.c_str() ) encoding:NSUTF16LittleEndianStringEncoding];
 	return string( [utf16NS cStringUsingEncoding:NSUTF8StringEncoding] );	
@@ -361,6 +381,8 @@ vector<string> stackTrace()
 #if defined( CINDER_MSW )
 	CinderStackWalker csw;
 	return csw.getEntries();
+#elif defined( CINDER_LINUX )
+        assert(0);
 #else
 	std::vector<std::string> result;
 	static const int MAX_DEPTH = 128;

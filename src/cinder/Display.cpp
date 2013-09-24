@@ -247,7 +247,14 @@ void Display::enumerateDisplays()
 	
 	sDisplaysInitialized = true;
 }
-#endif // defined( CINDER_MSW )
+
+#elif defined( CINDER_LINUX )
+void Display::enumerateDisplays()
+{
+    assert(0);
+}
+
+#endif // defined( CINDER_LINUX )
 
 Vec2i Display::getSystemCoordinate( const Vec2i &displayRelativeCoordinate ) const
 {

@@ -26,6 +26,8 @@
 #	include <mach/mach_time.h>
 #elif defined( CINDER_MSW ) 
 #	include <windows.h>
+#else
+#       include <chrono>
 #endif
 
 namespace cinder {
@@ -37,6 +39,8 @@ void Rand::randomize()
 {
 #if defined( CINDER_COCOA )
 	sBase = std::mt19937( mach_absolute_time() );
+#elif defined( CINDER_LINUX )
+        sBase = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
 #else
 	sBase = std::mt19937( ::GetTickCount() );
 #endif

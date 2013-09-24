@@ -29,6 +29,14 @@
 	#include <OpenGL/glext.h>
 #elif defined( CINDER_MSW )
 	#include "cinder/gl/GLee.h"
+#elif defined( CINDER_LINUX )
+        #ifndef ANT_OGL_HEADER_INCLUDED
+          #include "cinder/gl/GLee.h"
+        #endif
+#define GL_GLEXT_PROTOTYPES
+        #include <GL/gl.h>
+        #include <GL/glext.h>
+        
 #else
 	#define CINDER_GLES
 	#define CINDER_GLES1
@@ -54,6 +62,10 @@
 	#include <OpenGLES/ES1/glext.h>
 #elif defined( CINDER_MAC )
 	#include <OpenGL/gl.h>
+#elif defined( CINDER_LINUX )
+        #ifndef ANT_OGL_HEADER_INCLUDED
+          #include <GL/gl.h>
+         #endif
 #endif
 
 // forward declarations

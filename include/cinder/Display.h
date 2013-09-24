@@ -50,7 +50,8 @@
 
 namespace cinder {
 
-typedef std::shared_ptr<class Display> 	DisplayRef;
+class Display;
+typedef std::shared_ptr<Display> 	DisplayRef;
 
 class Display {
   public:

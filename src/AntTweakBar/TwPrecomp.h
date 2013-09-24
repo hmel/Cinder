@@ -44,7 +44,7 @@
 #   pragma warning(pop)
 #endif
 
-#if defined(_UNIX)
+#if defined(__unix__)
 #   define ANT_UNIX
 #   include <X11/cursorfont.h>
 #   define GLX_GLXEXT_LEGACY

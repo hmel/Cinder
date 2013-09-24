@@ -30,6 +30,8 @@
 	#include <Shellapi.h>
 	#include "cinder/Utilities.h"
 	#include "cinder/app/AppImplMswBasic.h"
+#elif defined( CINDER_LINUX )
+        #include "cinder/app/AppImplLinuxBasic.h"
 #endif
 
 namespace cinder { namespace app {
@@ -118,6 +120,9 @@ void AppBasic::launch( const char *title, int argc, char * const argv[] )
     [application run];
 
     [pool drain];
+#elif defined( CINDER_LINUX )
+    mImpl = new AppImplLinuxBasic( this );
+    mImpl->run();
 #else
 	mImpl = new AppImplMswBasic( this );	
 	mImpl->run();

@@ -27,6 +27,7 @@
 #include "cinder/Cinder.h"
 #include <cmath>
 #include <climits>
+#include <utility>
 #if defined( CINDER_MSW )
 	#undef min
 	#undef max

@@ -64,7 +64,7 @@ void BasicApp::prepareSettings( Settings *settings )
 
 void BasicApp::setup()
 {
-	for( auto displayIt = Display::getDisplays().begin(); displayIt != Display::getDisplays().end(); ++displayIt )
+  for( auto displayIt = cinder::Display::getDisplays().begin(); displayIt != cinder::Display::getDisplays().end(); ++displayIt )
 		console() << "Resolution: " << (*displayIt)->getBounds() << std::endl;
 
 	getWindow()->setUserData( new WindowData );
@@ -158,7 +158,7 @@ void BasicApp::keyDown( KeyEvent event )
 	}
 	if( event.getChar() == 'f' ) {
 		console() << "Toggling from fullscreen: " << getWindow()->isFullScreen() << std::endl;
-		getWindow()->setFullScreen( ! getWindow()->isFullScreen(), FullScreenOptions().display( Display::getDisplays()[1] ) );
+		getWindow()->setFullScreen( ! getWindow()->isFullScreen(), FullScreenOptions().display( cinder::Display::getDisplays()[1] ) );
 	}
 	else if( event.getChar() == 'o' ) {
 		console() << "(kiosk) Toggling from fullscreen: " << getWindow()->isFullScreen() << std::endl;
@@ -180,7 +180,7 @@ void BasicApp::keyDown( KeyEvent event )
 	else if( event.getCode() == KeyEvent::KEY_DOWN )
 		getWindow()->setSize( getWindow()->getSize().x + 1, getWindow()->getSize().y + 1 );
 	else if( event.getChar() == 'w' ) {
-		Window::Format format( RendererGl::create() );
+        cinder::app::Window::Format format( RendererGl::create() );
 		format.setFullScreen( true );
 		mSecondWindow = createWindow( format );
 		mSecondWindow->getSignalClose().connect( std::bind( &BasicApp::windowClose, this ) );
@@ -207,7 +207,7 @@ void BasicApp::keyDown( KeyEvent event )
 	else if( event.getChar() == 's' ) {
 		getWindow()->setBorderless();
 		getWindow()->spanAllDisplays();
-		console() << "Spanning Area: " << Display::getSpanningArea() << std::endl;
+		console() << "Spanning Area: " << cinder::Display::getSpanningArea() << std::endl;
 		console() << "Bounds: " << getWindow()->getBounds() << std::endl;
 		//getWindow()->setPos( Vec2i( -1680 + 1, 0 + 1 ) );
 //		getWindow()->setSize( 1440, 900 );

@@ -19,3 +19,10 @@ lib/cinder*.lib
 Debug/
 Release/
 ipch/
+
+*.*~
+GPATH
+GRTAGS
+GSYMS
+GTAGS
+

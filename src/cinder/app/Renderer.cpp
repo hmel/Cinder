@@ -41,6 +41,9 @@
 	#include "cinder/app/AppImplMsw.h"
 	#include "cinder/app/AppImplMswRendererGl.h"
 	#include "cinder/app/AppImplMswRendererGdi.h"
+#elif defined( CINDER_LINUX )
+        #include "cinder/app/AppImplLinux.h"
+        #include "cinder/app/AppImplLinuxRendererGl.h"
 #endif
 #include "cinder/ip/Flip.h"
 
@@ -70,6 +73,8 @@ RendererGl::RendererGl( const RendererGl &renderer )
 #elif defined( CINDER_MSW )
 	mImpl = 0;
 	mWnd = renderer.mWnd;
+#elif defined( CINDER_LINUX )
+        mImpl = 0;
 #endif
 }
 
@@ -268,7 +273,15 @@ Surface	RendererGl::copyWindowSurface( const Area &area )
 	return s;
 }
 
-#endif // 
+#endif //
+
+#if defined( CINDER_LINUX )
+RendererGl::~RendererGl()
+{
+    assert(0);
+}
+
+#endif //CINDER_LINUX
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Renderer2d
@@ -418,5 +431,41 @@ Surface	Renderer2d::copyWindowSurface( const Area &area )
 }
 
 #endif // defined( CINDER_MSW )
+
+
+#if defined( CINDER_LINUX )
+Renderer2d::~Renderer2d()
+{
+    assert(0);
+}
+
+Surface RendererGl::copyWindowSurface( const Area &area )
+{
+    assert(0);
+    return Surface();
+}
+
+void RendererGl::startDraw()
+{
+    assert(0);
+}
+
+void RendererGl::defaultResize()
+{
+    assert(0);
+}
+
+void RendererGl::finishDraw()
+{
+    assert(0);
+}
+
+void RendererGl::makeCurrentContext()
+{
+    assert(0);
+}
+
+
+#endif //CINDER_LINUX
 
 } } // namespace cinder::app

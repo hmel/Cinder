@@ -470,7 +470,7 @@ Font::Obj::Obj( const string &aName, float aSize )
 	::CFStringRef fullName = ::CGFontCopyFullName( mCGFont );
 	string result = cocoa::convertCfString( fullName );
 	::CFRelease( fullName );
-#else
+#elif defined( CINDER_MSW )
 	FontManager::instance(); // force GDI+ init
 	assert( sizeof(wchar_t) == 2 );
     wstring faceName = toUtf16( mName );
@@ -557,7 +557,7 @@ Font::Obj::~Obj()
 #if defined( CINDER_COCOA )
 	::CGFontRelease( mCGFont );
 	::CFRelease( mCTFont );
-#else
+#elif defined( CINDER_MSW )
 	if( mHfont ) // this should be replaced with something exception-safe
 		::DeleteObject( mHfont ); 
 #endif
@@ -601,5 +601,15 @@ FontInvalidNameExc::FontInvalidNameExc( const std::string &fontName ) throw()
 {
 	sprintf( mMessage, "%s", fontName.c_str() );
 }
+
+
+#if defined( CINDER_LINUX )
+float Font::getAscent() const
+{
+    assert(0);
+    return 0.0f;
+}
+
+#endif //CINDER_LINUX
 
 } // namespace cinder

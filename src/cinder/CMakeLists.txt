@@ -5,17 +5,18 @@ include_directories(../../include/
   )
 
 set(APP_srcs
-  #app/AppBasic.cpp
-  #app/App.cpp
+  app/AppBasic.cpp
+  app/App.cpp
   #app/AppImplMswBasic.cpp
   #app/AppImplMsw.cpp
   #app/AppImplMswRendererGdi.cpp
   #app/AppImplMswRendererGl.cpp
   #app/AppImplMswScreenSaver.cpp
-  #app/AppScreenSaver.cpp
+  app/AppImplLinux.cpp
+  app/AppScreenSaver.cpp
   app/KeyEvent.cpp
-  #app/Renderer.cpp
-  #app/Window.cpp
+  app/Renderer.cpp
+  app/Window.cpp
 )
 
 set(IP_srcs
@@ -58,6 +59,23 @@ set(GL_srcs
   gl/TextureFont.cpp
   gl/TileRender.cpp
   gl/Vbo.cpp
+  gl/GLee.c
+)
+
+set(TESS_srcs
+  ../libtess2/bucketalloc.c
+  ../libtess2/dict.c
+  ../libtess2/geom.c
+  ../libtess2/mesh.c
+  ../libtess2/priorityq.c
+  ../libtess2/sweep.c
+  ../libtess2/tess.c
+)
+
+set(LINEBREAK_srcs
+  ../linebreak/linebreak.c
+  ../linebreak/linebreakdata.c
+  ../linebreak/linebreakdef.c
 )
 
 add_library(cinder SHARED
@@ -81,7 +99,7 @@ add_library(cinder SHARED
   DataTarget.cpp
   Display.cpp
   Exception.cpp
-  #Font.cpp
+  Font.cpp
   Frustum.cpp
   ImageIo.cpp
   #ImageSourceFileQuartz.cpp
@@ -108,7 +126,7 @@ add_library(cinder SHARED
   Text.cpp
   Timeline.cpp
   TimelineItem.cpp
-  #Timer.cpp
+  Timer.cpp
   Triangulate.cpp
   TriMesh.cpp
   Tween.cpp
@@ -116,12 +134,14 @@ add_library(cinder SHARED
   Url.cpp
   UrlImplCurl.cpp
   #UrlImplWinInet.cpp
-  #Utilities.cpp
+  Utilities.cpp
   Xml.cpp
   ${APP_srcs}
   ${IP_srcs}
   ${ANTTWEAKBAR_srcs}
   ${GL_srcs}
+  ${TESS_srcs}
+  ${LINEBREAK_srcs}
   )
 
 set_target_properties(cinder PROPERTIES

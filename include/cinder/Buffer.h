@@ -24,6 +24,7 @@
 
 #include "cinder/Cinder.h"
 
+
 #define DEFAULT_COMPRESSION_LEVEL 6
 
 namespace cinder { 

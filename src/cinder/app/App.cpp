@@ -154,6 +154,8 @@ DataSourceRef App::loadResource( const string &macPath, int mswID, const string 
 {
 #if defined( CINDER_COCOA )
 	return loadResource( macPath );
+#elif defined( CINDER_LINUX )
+        //@face TODO
 #else
 	return DataSourceBuffer::create( AppImplMsw::loadResource( mswID, mswType ), macPath );
 #endif
@@ -168,6 +170,9 @@ DataSourceRef App::loadResource( const string &macPath )
 	else
 		return DataSourcePath::create( resourcePath );
 }
+
+#elif defined( CINDER_LINUX )
+        //@face TODO
 #else
 
 DataSourceRef App::loadResource( int mswID, const string &mswType )
@@ -419,6 +424,8 @@ std::ostream& App::console()
 {
 #if defined( CINDER_COCOA )
 	return std::cout;
+#elif defined( CINDER_LINUX )
+        //@face TODO
 #else
 	if( ! mOutputStream )
 		mOutputStream = shared_ptr<cinder::msw::dostream>( new cinder::msw::dostream );

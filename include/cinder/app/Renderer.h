@@ -167,10 +167,14 @@ class RendererGl : public Renderer {
 	class AppImplMswRendererGl	*mImpl;
 	HWND						mWnd;
 	friend class				AppImplMswRendererGl;
+#elif defined( CINDER_LINUX )
+        class AppImplLinuxRendererGl    *mImpl;
 #endif
 };
 
-typedef std::shared_ptr<class Renderer2d>	Renderer2dRef;
+class Renderer2d;
+typedef std::shared_ptr<Renderer2d>	Renderer2dRef;
+
 #if defined( CINDER_COCOA )
 class Renderer2d : public Renderer {
   public:
@@ -237,6 +241,16 @@ class Renderer2d : public Renderer {
 	bool			mDoubleBuffer;
 	HWND			mWnd;
 	HDC				mDC;
+};
+
+#elif defined( CINDER_LINUX )
+
+class Renderer2d : public Renderer {
+public:
+    Renderer2d( const Renderer2d &renderer );
+    ~Renderer2d();
+
+    void* mImpl;
 };
 
 #endif

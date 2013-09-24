@@ -812,6 +812,19 @@ Surface	TextBox::render( Vec2f offset )
 	return result;
 }
 
+#elif defined( CINDER_LINUX )
+vector<pair<uint16_t,Vec2f> > TextBox::measureGlyphs() const
+{
+    assert(0);
+    return vector<pair<uint16_t,Vec2f> > ();
+}
+
+Surface renderString( const string &str, const Font &font, const ColorA &color, float *baselineOffset )
+{
+    assert(0);
+    return Surface();
+}
+
 #endif // defined( CINDER_MSW )
 
 } // namespace cinder

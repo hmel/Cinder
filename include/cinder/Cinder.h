@@ -93,6 +93,9 @@ using std::uint64_t;
 	#include <memory>
 #elif defined( CINDER_COCOA ) // libstdc++
 	#error "Cinder requires libc++ on Mac OS X and iOS"
+#elif defined( CINDER_LINUX ) // Linux
+        #include <memory>
+        #include <cstdlib>
 #else
 	#error "Unkown platform configuration"
 #endif
