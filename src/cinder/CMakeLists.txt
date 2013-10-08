@@ -1,4 +1,6 @@
-include_directories(../../include/
+include_directories(
+  /home/face/include/
+  ../../include/
   ../libtess2/
   ../linebreak/
   ../AntTweakBar/
@@ -13,6 +15,7 @@ set(APP_srcs
   #app/AppImplMswRendererGl.cpp
   #app/AppImplMswScreenSaver.cpp
   app/AppImplLinux.cpp
+  app/AppImplLinuxBasic.cpp
   app/AppScreenSaver.cpp
   app/KeyEvent.cpp
   app/Renderer.cpp

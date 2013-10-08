@@ -28,6 +28,10 @@ using namespace std;
 	#include <Cocoa/Cocoa.h>
 #elif defined( CINDER_COCOA_TOUCH )
 	#include <UIKit/UIKit.h>
+#elif defined( CINDER_LINUX )
+#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_rect.h>
+#include <boost/make_shared.hpp>
 #endif
 
 namespace cinder {
@@ -251,7 +255,22 @@ void Display::enumerateDisplays()
 #elif defined( CINDER_LINUX )
 void Display::enumerateDisplays()
 {
-    assert(0);
+    if( sDisplaysInitialized )
+        return;
+
+    int numDisplays = SDL_GetNumVideoDisplays();
+    for(auto i=0; i<numDisplays; ++i) {
+        DisplayRef newDisplay (new Display);
+        SDL_Rect bounds;
+        if (SDL_GetDisplayBounds(i, &bounds) < 0) {
+            throw "Display out of bounds";
+        }
+        newDisplay->mArea = Area(bounds.x, bounds.y, bounds.x+bounds.w, bounds.y+bounds.h);
+        sDisplays.push_back(newDisplay);
+
+
+    }
+    sDisplaysInitialized = true;
 }
 
 #endif // defined( CINDER_LINUX )
@@ -264,6 +283,7 @@ Vec2i Display::getSystemCoordinate( const Vec2i &displayRelativeCoordinate ) con
 DisplayRef Display::getMainDisplay()
 {
 	enumerateDisplays();
+    assert(sDisplays.size() > 0);
 	return sDisplays[0];
 }
 

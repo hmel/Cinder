@@ -27,7 +27,11 @@
 
 #if defined( CINDER_MSW )
 	#include "cinder/app/AppImplMsw.h"
+#elif defined( CINDER_LINUX )
+    #include "cinder/app/AppImplLinux.h"
 #endif
+
+
 
 namespace cinder { namespace app {
 
@@ -39,6 +43,8 @@ bool Window::isFullScreen() const
 	return [mImpl isFullScreen];
 #elif defined( CINDER_MSW )
 	return mImpl->isFullScreen();
+#elif defined( CINDER_LINUX )
+    return mImpl->isFullScreen();
 #endif
 }
 
@@ -50,6 +56,8 @@ void Window::setFullScreen( bool fullScreen, const FullScreenOptions &options )
 	[mImpl setFullScreen:fullScreen options:&options];
 #elif defined( CINDER_MSW )
 	mImpl->setFullScreen( fullScreen, options );
+#elif defined( CINDER_LINUX )
+    mImpl->setFullScreen( fullScreen, options );
 #endif
 }
 
@@ -61,6 +69,8 @@ Vec2i Window::getSize() const
 	return [mImpl getSize];
 #elif defined( CINDER_MSW )
 	return mImpl->getSize();
+#elif defined( CINDER_LINUX )
+    return mImpl->getSize();
 #endif
 }
 
@@ -72,6 +82,8 @@ void Window::setSize( const Vec2i &size )
 	[mImpl setSize:size];
 #elif defined( CINDER_MSW )
 	mImpl->setSize( size );
+#elif defined( CINDER_LINUX )
+    mImpl->setSize( size );
 #endif
 }
 
@@ -83,6 +95,8 @@ Vec2i Window::getPos() const
 	return [mImpl getPos];
 #elif defined( CINDER_MSW )
 	return mImpl->getPos();
+#elif defined( CINDER_LINUX )
+    return mImpl->getPos();
 #endif
 }
 
@@ -94,6 +108,8 @@ void Window::setPos( const Vec2i &pos ) const
 	[mImpl setPos:pos];
 #elif defined( CINDER_MSW )
 	mImpl->setPos( pos );
+#elif defined( CINDER_LINUX )
+    mImpl->setPos( pos );
 #endif
 }
 
@@ -113,6 +129,8 @@ float Window::getContentScale() const
 	return [mImpl getContentScale];
 #elif defined( CINDER_MSW )
 	return 1.0f;
+#elif defined( CINDER_LINUX )
+    return 1.0f;
 #endif
 }
 
@@ -124,6 +142,8 @@ void Window::close()
 	[mImpl close];
 #elif defined( CINDER_MSW )
 	mImpl->close();
+#elif defined( CINDER_LINUX )
+    mImpl->close();
 #endif
 }
 
@@ -136,6 +156,8 @@ std::string	Window::getTitle() const
 	return title ? std::string( [title cStringUsingEncoding:NSUTF8StringEncoding] ) : std::string();
 #elif defined( CINDER_MSW )
 	return mImpl->getTitle();
+#elif defined( CINDER_LINUX )
+    return mImpl->getTitle();
 #endif
 }
 
@@ -147,6 +169,8 @@ void Window::setTitle( const std::string &title )
 	[mImpl setTitle:[NSString stringWithUTF8String:title.c_str()]];
 #elif defined( CINDER_MSW )
 	mImpl->setTitle( title );
+#elif defined( CINDER_LINUX )
+    mImpl->setTitle( title );
 #endif
 }
 
@@ -158,6 +182,8 @@ bool Window::isBorderless() const
 	return [mImpl isBorderless];
 #elif defined( CINDER_MSW )
 	return mImpl->isBorderless();
+#elif defined( CINDER_LINUX )
+    return mImpl->isBorderless();
 #endif
 }
 
@@ -169,6 +195,8 @@ void Window::setBorderless( bool borderless )
 	[mImpl setBorderless:borderless];
 #elif defined( CINDER_MSW )
 	mImpl->setBorderless( borderless );
+#elif defined( CINDER_LINUX )
+    mImpl->setBorderless( borderless );
 #endif
 }
 
@@ -180,6 +208,8 @@ bool Window::isAlwaysOnTop() const
 	return [mImpl isAlwaysOnTop];
 #elif defined( CINDER_MSW )
 	return mImpl->isAlwaysOnTop();
+#elif defined( CINDER_LINUX )
+    return mImpl->isAlwaysOnTop();
 #endif
 }
 
@@ -191,6 +221,8 @@ void Window::setAlwaysOnTop( bool alwaysOnTop )
 	[mImpl setAlwaysOnTop:alwaysOnTop];
 #elif defined( CINDER_MSW )
 	mImpl->setAlwaysOnTop( alwaysOnTop );
+#elif defined( CINDER_LINUX )
+    mImpl->setAlwaysOnTop( alwaysOnTop );
 #endif
 }
 
@@ -202,6 +234,8 @@ void Window::hide()
 	[mImpl hide];
 #elif defined( CINDER_MSW )
 	mImpl->hide();
+#elif defined( CINDER_LINUX )
+    mImpl->hide();
 #endif
 }
 
@@ -213,6 +247,8 @@ void Window::show()
 	[mImpl show];
 #elif defined( CINDER_MSW )
 	mImpl->show();
+#elif defined( CINDER_LINUX )
+    mImpl->show();
 #endif
 }
 
@@ -224,6 +260,8 @@ bool Window::isHidden() const
 	return [mImpl isHidden];
 #elif defined( CINDER_MSW )
 	return mImpl->isHidden();
+#elif defined( CINDER_LINUX )
+    return mImpl->isHidden();
 #endif	
 }
 
@@ -235,6 +273,8 @@ DisplayRef Window::getDisplay() const
 	return [mImpl getDisplay];
 #elif defined( CINDER_MSW )
 	return mImpl->getDisplay();
+#elif defined( CINDER_LINUX )
+    return mImpl->getDisplay();
 #endif	
 }
 
@@ -246,6 +286,8 @@ RendererRef Window::getRenderer() const
 	return [mImpl getRenderer];
 #elif defined( CINDER_MSW )
 	return mImpl->getRenderer();
+#elif defined( CINDER_LINUX )
+    return mImpl->getRenderer();
 #endif
 }
 
@@ -257,6 +299,8 @@ void* Window::getNative() const
 	return [mImpl getNative];
 #elif defined( CINDER_MSW )
 	return mImpl->getNative();
+#elif defined( CINDER_LINUX )
+    return mImpl->getNative();
 #endif
 }
 
@@ -377,6 +421,8 @@ const std::vector<TouchEvent::Touch>& Window::getActiveTouches() const
 	return [mImpl getActiveTouches];
 #elif defined( CINDER_MSW )
 	return mImpl->getActiveTouches();
+#elif defined( CINDER_LINUX )
+    return mImpl->getActiveTouches();
 #endif
 }
 

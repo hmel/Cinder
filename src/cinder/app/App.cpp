@@ -37,6 +37,8 @@
 #elif defined( CINDER_MSW )
 	#include "cinder/msw/OutputDebugStringStream.h"
 	#include "cinder/app/AppImplMsw.h"
+#elif defined( CINDER_LINUX )
+#include <SDL2/SDL.h>
 #endif
 
 #include <boost/asio.hpp>
@@ -425,7 +427,7 @@ std::ostream& App::console()
 #if defined( CINDER_COCOA )
 	return std::cout;
 #elif defined( CINDER_LINUX )
-        //@face TODO
+    return std::cout;
 #else
 	if( ! mOutputStream )
 		mOutputStream = shared_ptr<cinder::msw::dostream>( new cinder::msw::dostream );
@@ -480,6 +482,10 @@ void App::prepareLaunch()
 {
 #if defined( CINDER_COCOA )
     sAutoReleasePool = [[NSAutoreleasePool alloc] init];
+#elif defined( CINDER_LINUX )
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        throw SDL_GetError();
+    }
 #endif
 }
 
@@ -494,6 +500,8 @@ void App::cleanupLaunch()
 {
 #if defined( CINDER_COCOA )
     sAutoReleasePool = [[NSAutoreleasePool alloc] init];
+#elif defined( CINDER_LINUX )
+    SDL_Quit();
 #endif
 }
 

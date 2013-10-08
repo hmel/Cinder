@@ -64,12 +64,17 @@ void BasicApp::prepareSettings( Settings *settings )
 
 void BasicApp::setup()
 {
-  for( auto displayIt = cinder::Display::getDisplays().begin(); displayIt != cinder::Display::getDisplays().end(); ++displayIt )
-		console() << "Resolution: " << (*displayIt)->getBounds() << std::endl;
+    for( auto displayIt = cinder::Display::getDisplays().begin(); displayIt != cinder::Display::getDisplays().end(); ++displayIt ) {
+        Area a;
+        a = (*displayIt)->getBounds();
+        console() << "Resolution: ";
+        console() << a;
+        console() << std::endl;
+    }
 
 	getWindow()->setUserData( new WindowData );
 
-getWindow()->connectMouseDown( &BasicApp::anotherTest, this );
+    getWindow()->connectMouseDown( &BasicApp::anotherTest, this );
 	getWindow()->getSignalMouseDown().connect( std::bind( &BasicApp::mouseDown1, this, std::_1 ) );
 	getWindow()->getSignalMouseDown().connect( std::bind( &BasicApp::mouseDown2, this, std::_1 ) );
 	getWindow()->getSignalMouseDown().connect( std::bind( &BasicApp::mouseDown3, this, std::_1 ) );

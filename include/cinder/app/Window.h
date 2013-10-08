@@ -84,7 +84,9 @@ typedef std::shared_ptr<Window>		WindowRef;
 		class WindowImplMsw;
 	} } // namespace cinder::app
 #elif defined( CINDER_LINUX )
-class WindowImplLinux;
+    namespace cinder { namespace app {
+        class WindowImplLinux;
+    } } // namespace cinder::app
 #endif
 
 namespace cinder { namespace app {
@@ -452,7 +454,7 @@ class Window : public std::enable_shared_from_this<Window> {
 #elif defined( CINDER_MSW )
 	static WindowRef		privateCreate__( WindowImplMsw *impl, App *app )
 #elif defined( CINDER_LINUX )
-        static WindowRef                privateCreate__( WindowImplLinux *impl, App *app)
+    static WindowRef                privateCreate__( WindowImplLinux *impl, App *app)
 #else
 	static WindowRef		privateCreate__( WindowImplCocoa *impl, App *app )
 #endif
@@ -460,7 +462,7 @@ class Window : public std::enable_shared_from_this<Window> {
 		WindowRef result( new Window );
 		result->setImpl( impl );
 		result->setApp( app );
-		
+
 		return result;
 	}
 	//! \endcond
