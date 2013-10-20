@@ -1,4 +1,4 @@
-include_directories(../../include/)
+include_directories(../../include/ /home/face/include)
 
 link_directories(/home/face/lib/)
 

@@ -27,6 +27,9 @@
 #if defined( CINDER_COCOA )
 	#include <CoreFoundation/CoreFoundation.h>
 #endif
+#if defined( CINDER_LINUX )
+#include <SDL2/SDL_timer.h>
+#endif
 
 namespace cinder {
 
@@ -55,7 +58,7 @@ class Timer {
 #elif defined( CINDER_MSW )
 	double				mStartTime, mEndTime, mInvNativeFreq;
 #elif defined( CINDER_LINUX )
-        double				mStartTime, mEndTime, mInvNativeFreq;
+    Uint64				mStartTime, mEndTime, mPerformanceFreq;
 #endif
 };
 

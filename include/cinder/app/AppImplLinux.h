@@ -72,8 +72,8 @@ public:
     AppImplLinux*				getAppImpl();
     WindowRef				getWindow() { return mWindowRef; }
     virtual void			keyDown( const KeyEvent &event ) {assert(0);}
-    virtual void			draw() {assert(0);}
-    virtual void			redraw() {log;}
+    virtual void			draw();
+    virtual void			redraw();
     virtual void			resize() {
         mAppImpl->setWindow( mWindowRef );
         mWindowRef->emitResize();
@@ -86,6 +86,7 @@ protected:
 protected:
     AppImplLinux            *mAppImpl;
 	WindowRef				mWindowRef;
+    SDL_Window              *mWindow;
   	//HWND					mWnd;
 	//HDC						mDC;
 	//DWORD					mWindowStyle, mWindowExStyle;

@@ -60,6 +60,7 @@
 	#endif
 #endif
 
+class SDL_Window;
 
 namespace cinder { namespace app {
 
@@ -95,6 +96,8 @@ class Renderer {
 
 	virtual HWND				getHwnd() = 0;
 	virtual HDC					getDc() { return NULL; }
+#elif defined( CINDER_LINUX )
+    virtual void setup(App *aApp, SDL_Window* window, RendererRef sharedRenderer) = 0;
 #endif
 
 	virtual Surface	copyWindowSurface( const Area &area ) = 0;
@@ -142,6 +145,8 @@ class RendererGl : public Renderer {
 	virtual HWND	getHwnd() { return mWnd; }
 	virtual void	prepareToggleFullScreen();
 	virtual void	finishToggleFullScreen();
+#elif defined( CINDER_LINUX )
+    void setup(App *aApp, SDL_Window* window, RendererRef sharedRenderer);
 #endif
 
 	enum	{ AA_NONE = 0, AA_MSAA_2, AA_MSAA_4, AA_MSAA_6, AA_MSAA_8, AA_MSAA_16, AA_MSAA_32 };

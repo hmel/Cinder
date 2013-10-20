@@ -39,7 +39,7 @@ AppImplLinux::~AppImplLinux () {
 
 WindowImplLinux::WindowImplLinux( const Window::Format &format,
                                   RendererRef sharedRenderer, AppImplLinux *appImpl ) :
-    mWindowOffset( 0, 0 ), mAppImpl( appImpl ), mIsDragging( false ), mHidden( false )
+    mWindowOffset( 0, 0 ), mRenderer(sharedRenderer), mAppImpl( appImpl ), mIsDragging( false ), mHidden( false )
 {
     log;
 	mFullScreen = format.isFullScreen();
@@ -93,16 +93,21 @@ void WindowImplLinux::createWindow( const Vec2i &windowSize, const std::string &
     //what matches SDL_WINDOW_FULLSCREEN_DESKTOP?
     //what matches SDL_WINDOW_INPUT_GRABBED?
     //what matches SDL_WINDOW_ALLOW_HIGHDPI?
+    flags |= (SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     
-    SDL_Window* window = SDL_CreateWindow(title.c_str(),
-                                          0,
-                                          0,
-                                          mWindowedSize.x,
-                                          mWindowedSize.y,
-                                          flags);
-    if (window == nullptr) {
+    mWindow = SDL_CreateWindow(title.c_str(),
+                               0,
+                               0,
+                               mWindowedSize.x,
+                               mWindowedSize.y,
+                               flags);
+    if (mWindow == nullptr) {
         throw SDL_GetError();
     }
+
+    mRenderer->setup(mAppImpl->getApp(), mWindow, sharedRenderer);
 }
 
 
@@ -139,6 +144,18 @@ void WindowImplLinux::setSize( const Vec2i &size ) {
 
 DisplayRef	WindowImplLinux::getDisplay() const {
     log;
+}
+
+void WindowImplLinux::draw() {
+    mAppImpl->setWindow( mWindowRef );
+	mRenderer->startDraw();
+	mWindowRef->emitDraw();
+	mRenderer->finishDraw();
+}
+
+void WindowImplLinux::redraw() {
+    draw();
+    //::SDL_GL_SwapWindow(mWindow);
 }
 
 }}

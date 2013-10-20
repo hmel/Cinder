@@ -281,6 +281,15 @@ RendererGl::~RendererGl()
     assert(0);
 }
 
+void RendererGl::setup(App *aApp, SDL_Window* window, RendererRef sharedRenderer) {
+	//mWindow = window;
+	mApp = aApp;
+	if( ! mImpl )
+		mImpl = new AppImplLinuxRendererGl( mApp, this );
+    
+	mImpl->initialize( window, sharedRenderer );
+}
+    
 #endif //CINDER_LINUX
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -447,22 +456,22 @@ Surface RendererGl::copyWindowSurface( const Area &area )
 
 void RendererGl::startDraw()
 {
-    assert(0);
+    mImpl->makeCurrentContext();
 }
 
 void RendererGl::defaultResize()
 {
-    assert(0);
+    mImpl->defaultResize();
 }
 
 void RendererGl::finishDraw()
 {
-    assert(0);
+    mImpl->swapBuffers();
 }
 
 void RendererGl::makeCurrentContext()
 {
-    assert(0);
+    mImpl->makeCurrentContext();
 }
 
 
