@@ -278,7 +278,7 @@ Surface	RendererGl::copyWindowSurface( const Area &area )
 #if defined( CINDER_LINUX )
 RendererGl::~RendererGl()
 {
-    assert(0);
+    delete mImpl;
 }
 
 void RendererGl::setup(App *aApp, SDL_Window* window, RendererRef sharedRenderer) {
@@ -450,8 +450,15 @@ Renderer2d::~Renderer2d()
 
 Surface RendererGl::copyWindowSurface( const Area &area )
 {
-    assert(0);
-    return Surface();
+    Surface s( area.getWidth(), area.getHeight(), false );
+	glFlush(); // there is some disagreement about whether this is necessary, but ideally performance-conscious users will use FBOs anyway
+	GLint oldPackAlignment;
+	glGetIntegerv( GL_PACK_ALIGNMENT, &oldPackAlignment ); 
+	glPixelStorei( GL_PACK_ALIGNMENT, 1 );
+	glReadPixels( area.x1, mApp->getWindow()->toPixels( mApp->getWindowHeight() ) - area.y2, area.getWidth(), area.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, s.getData() );
+	glPixelStorei( GL_PACK_ALIGNMENT, oldPackAlignment );	
+	ip::flipVertical( &s );
+	return s;
 }
 
 void RendererGl::startDraw()

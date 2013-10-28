@@ -18,25 +18,6 @@ AppImplLinux::~AppImplLinux () {
 }
 
 
-/*
-    virtual bool		WindowImplLinux::isFullScreen();
-    virtual void		WindowImplLinux::setFullScreen( bool fullScreen, const app::FullScreenOptions &options );
-    virtual Vec2i		WindowImplLinux::getSize() const;
-    virtual void		WindowImplLinux::setSize( const Vec2i &size );
-    virtual Vec2i		WindowImplLinux::getPos() const;
-    virtual void		WindowImplLinux::setPos( const Vec2i &pos );
-    virtual void		WindowImplLinux::close();
-    virtual std::string	WindowImplLinux::getTitle() const;
-    virtual void		WindowImplLinux::setTitle( const std::string &title );
-    virtual void		WindowImplLinux::hide();
-    virtual void		WindowImplLinux::show();
-    virtual bool		WindowImplLinux::isHidden() const;
-    virtual DisplayRef	WindowImplLinux::getDisplay() const;
-    virtual RendererRef	WindowImplLinux::getRenderer() const;
-    virtual const std::vector<TouchEvent::Touch>&	WindowImplLinux::getActiveTouches() const;
-    virtual void*		WindowImplLinux::getNative();
-*/
-
 WindowImplLinux::WindowImplLinux( const Window::Format &format,
                                   RendererRef sharedRenderer, AppImplLinux *appImpl ) :
     mWindowOffset( 0, 0 ), mRenderer(sharedRenderer), mAppImpl( appImpl ), mIsDragging( false ), mHidden( false )
@@ -77,6 +58,30 @@ WindowImplLinux::~WindowImplLinux() {
     log;
 }
 
+bool WindowImplLinux::isFullScreen() {
+    Uint64 flags = SDL_GetWindowFlags(mWindow);
+    return (flags & SDL_WINDOW_FULLSCREEN) || (flags && SDL_WINDOW_FULLSCREEN_DESKTOP);
+}
+
+void WindowImplLinux::setFullScreen( bool fullScreen, const app::FullScreenOptions &options ) {
+    if (fullScreen) {
+        //maybe SDL_WINDOW_FULLSCREEN
+        SDL_SetWindowFullscreen (mWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    } else {
+        SDL_SetWindowFullscreen (mWindow, 0);
+    }
+}
+
+Vec2i WindowImplLinux::getPos() const {
+    int x, y;
+    SDL_GetWindowPosition(mWindow, &x, &y);
+    return Vec2i(x, y);
+}
+
+void WindowImplLinux::setPos( const Vec2i &pos ) {
+    SDL_SetWindowPosition(mWindow, pos.x, pos.y);
+}
+
 void WindowImplLinux::createWindow( const Vec2i &windowSize, const std::string &title,
                                   const DisplayRef display, RendererRef sharedRenderer ) {
     log;
@@ -112,18 +117,30 @@ void WindowImplLinux::createWindow( const Vec2i &windowSize, const std::string &
 
 
 void WindowImplLinux::show() {
-    log;
+    SDL_ShowWindow(mWindow);
+}
+
+void WindowImplLinux::hide() {
+    SDL_HideWindow(mWindow);
+}
+
+void WindowImplLinux::privateClose() {
+    //mRenderer->kill();
+
+    SDL_DestroyWindow (mWindow);
+    mWindow = nullptr;
 }
 
 void WindowImplLinux::close() {
-    log;
+    getAppImpl()->closeWindow(this);
 }
 
 Vec2i WindowImplLinux::getSize() const {
+    return Vec2i(mWindowWidth, mWindowHeight);
 }
 
 void* WindowImplLinux::getNative() {
-    log;
+    return mWindow;
 }
 
 const std::vector<TouchEvent::Touch>& WindowImplLinux::getActiveTouches() const {
@@ -131,19 +148,23 @@ const std::vector<TouchEvent::Touch>& WindowImplLinux::getActiveTouches() const 
 }
 
 void WindowImplLinux::setTitle( const std::string &title ) {
-    log;
+    SDL_SetWindowTitle(mWindow, title.c_str());
+}
+
+std::string	WindowImplLinux::getTitle() const {
+    return SDL_GetWindowTitle(mWindow);
 }
 
 bool WindowImplLinux::isHidden() const {
-    log;
+    return SDL_GetWindowFlags(mWindow) & SDL_WINDOW_HIDDEN;
 }
 
 void WindowImplLinux::setSize( const Vec2i &size ) {
-    log;
+    SDL_SetWindowSize(mWindow, size.x, size.y);
 }
 
 DisplayRef	WindowImplLinux::getDisplay() const {
-    log;
+    return mDisplay;
 }
 
 void WindowImplLinux::draw() {

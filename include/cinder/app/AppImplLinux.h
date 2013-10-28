@@ -19,6 +19,7 @@ class AppImplLinux {
 
     virtual WindowRef	getWindow() const { return mActiveWindow; }
     void				setWindow( WindowRef window ) { mActiveWindow = window; }
+    virtual void closeWindow (class WindowImplLinux* windowImpl) = 0;
 	
 	static void	hideCursor() {}
 	static void	showCursor() {}
@@ -46,16 +47,16 @@ public:
     WindowImplLinux( RendererRef renderer, RendererRef sharedRenderer, AppImplLinux *appImpl );
     virtual ~WindowImplLinux();
     
-    virtual bool		isFullScreen() {assert(0); return false;}
-    virtual void		setFullScreen( bool fullScreen, const app::FullScreenOptions &options ) {assert(0);}
+    virtual bool		isFullScreen();
+    virtual void		setFullScreen( bool fullScreen, const app::FullScreenOptions &options );
     virtual Vec2i		getSize() const;
     virtual void		setSize( const Vec2i &size );
-    virtual Vec2i		getPos() const {assert(0);}
-    virtual void		setPos( const Vec2i &pos ) {assert(0);}
+    virtual Vec2i		getPos() const;
+    virtual void		setPos( const Vec2i &pos );
     virtual void		close();
-    virtual std::string	getTitle() const {assert(0);}
+    virtual std::string	getTitle() const;
     virtual void		setTitle( const std::string &title );
-    virtual void		hide() {assert(0);}
+    virtual void		hide();
     virtual void		show();
     virtual bool		isHidden() const;
     virtual DisplayRef	getDisplay() const;
@@ -69,7 +70,7 @@ public:
     bool			isAlwaysOnTop() const {return mAlwaysOnTop;}
     void			setAlwaysOnTop( bool alwaysOnTop ) {assert(0);}
     
-    AppImplLinux*				getAppImpl();
+    AppImplLinux*				getAppImpl() { return mAppImpl; }
     WindowRef				getWindow() { return mWindowRef; }
     virtual void			keyDown( const KeyEvent &event ) {assert(0);}
     virtual void			draw();

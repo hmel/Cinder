@@ -4,17 +4,24 @@
 
 #include "AppImplLinux.h"
 
+union SDL_Event;
+
 namespace cinder { namespace app {
 
 class WindowImplLinuxBasic;
 
+
 class AppImplLinuxBasic : public AppImplLinux {
 public:
-    AppImplLinuxBasic(cinder::app::AppBasic* const app) : AppImplLinux(app) {}
+    AppImplLinuxBasic(cinder::app::AppBasic* const app) : AppImplLinux(app),
+                                                          mApp (app) {
+        mShouldQuit = false;
+    }
 //    AppImplLinuxBasic() {}
     virtual void run();
     virtual void	quit();
     WindowRef createWindow( Window::Format format );
+    virtual void closeWindow (class WindowImplLinux* window) override;
     WindowRef getWindowIndex( size_t index );
     bool isFrameRateEnabled() const {return mFrameRateEnabled;}
     void disableFrameRate() {
@@ -28,8 +35,14 @@ public:
         return mForegroundWindow;
     }
 
+private:
+    void dispatchEvent(SDL_Event& event);
+    void sleep( double seconds );
+    WindowRef findWindow(Uint32 windowID);
+
 
 private:
+    class AppBasic	*mApp;
     bool mFrameRateEnabled;
     double mNextFrameTime;
     bool mShouldQuit;

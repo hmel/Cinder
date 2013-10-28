@@ -58,7 +58,7 @@ class Timer {
 #elif defined( CINDER_MSW )
 	double				mStartTime, mEndTime, mInvNativeFreq;
 #elif defined( CINDER_LINUX )
-    Uint64				mStartTime, mEndTime, mPerformanceFreq;
+    double mStartTime, mEndTime, mInvPerformanceFreq;
 #endif
 };
 

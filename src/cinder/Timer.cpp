@@ -40,7 +40,7 @@ Timer::Timer()
 	mStartTime = mEndTime = -1;
 #elif defined( CINDER_LINUX )
     mStartTime = mEndTime = -1;
-    mPerformanceFreq = ::SDL_GetPerformanceFrequency();
+    mInvPerformanceFreq = 1.0 / ::SDL_GetPerformanceFrequency();
 #endif
 }
 
@@ -56,7 +56,7 @@ Timer::Timer( bool startOnConstruction )
 	mStartTime = mEndTime = -1;
 #elif defined( CINDER_LINUX )
     mStartTime = mEndTime = -1;
-    mPerformanceFreq = ::SDL_GetPerformanceFrequency();
+    mInvPerformanceFreq = 1.0 / ::SDL_GetPerformanceFrequency();
 #endif
 	if( startOnConstruction ) {
 		start();
@@ -72,7 +72,7 @@ void Timer::start()
 	::QueryPerformanceCounter( &rawTime );
 	mStartTime = rawTime.QuadPart * mInvNativeFreq;
 #elif defined( CINDER_LINUX )
-    mStartTime = ::SDL_GetPerformanceCounter();
+    mStartTime = ::SDL_GetPerformanceCounter() * mInvPerformanceFreq;
 #endif
 
 	mIsStopped = false;
@@ -80,15 +80,9 @@ void Timer::start()
 
 double Timer::getSeconds() const
 {
-#if !defined( CINDER_LINUX )
 	if( mIsStopped )
 		return mEndTime - mStartTime;
 	else {
-#else
-        if( mIsStopped )
-            return ((double)mEndTime - mStartTime) / mPerformanceFreq;
-        else {
-#endif //CINDER_LINUX
 
 #if defined( CINDER_COCOA )
 		return ::CFAbsoluteTimeGetCurrent() - mStartTime;
@@ -97,7 +91,7 @@ double Timer::getSeconds() const
 	::QueryPerformanceCounter( &rawTime );
 	return (rawTime.QuadPart * mInvNativeFreq) - mStartTime;
 #elif defined( CINDER_LINUX )
-    ((double)::SDL_GetPerformanceCounter() - mStartTime) / mPerformanceFreq;
+    return (::SDL_GetPerformanceCounter() * mInvPerformanceFreq) - mStartTime;
 #endif
 	}
 }
@@ -112,7 +106,7 @@ void Timer::stop()
 		::QueryPerformanceCounter( &rawTime );
 		mEndTime = rawTime.QuadPart * mInvNativeFreq;
 #elif defined( CINDER_LINUX )
-        mEndTime = ::SDL_GetPerformanceCounter();
+        mEndTime = ::SDL_GetPerformanceCounter() * mInvPerformanceFreq;
 #endif
 		mIsStopped = true;
 	}
