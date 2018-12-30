@@ -28,6 +28,8 @@
 #	import "cinder/app/AppImplCocoaScreenSaver.h"
 #elif defined( CINDER_MSW )
 #	include "cinder/app/AppImplMswScreenSaver.h"
+#elif defined( CINDER_LINUX )
+#   include "cinder/app/AppImplLinuxScreenSaver.h"
 #endif
 
 cinder::app::AppScreenSaver *cinder::app::AppScreenSaver::sInstance = 0;
@@ -73,6 +75,8 @@ float AppScreenSaver::getFrameRate() const
 	return [mImpl getFrameRate];
 #elif defined( CINDER_MSW )
 	return mImpl->getFrameRate();
+#elif defined( CINDER_LINUX )
+    return mImpl->getFrameRate();
 #endif
 }
 
@@ -91,6 +95,8 @@ bool AppScreenSaver::isPreview() const
 	return [mImpl isPreview];
 #elif defined( CINDER_MSW )
 	return mImpl->isPreview();
+#elif defined( CINDER_LINUX )
+    return mImpl->isPreview();
 #endif
 }
 
@@ -100,6 +106,8 @@ fs::path AppScreenSaver::getAppPath() const
 	return [mImpl getAppPath];
 #elif defined( CINDER_MSW )
 	return mImpl->getAppPath();
+#elif defined( CINDER_LINUX )
+    return mImpl->getAppPath();
 #endif
 }
 
@@ -116,6 +124,8 @@ size_t AppScreenSaver::getNumWindows() const
 	return [mImpl getNumWindows];
 #elif defined( CINDER_MSW )
 	return mImpl->getNumWindows();
+#elif defined( CINDER_LINUX )
+    return mImpl->getNumWindows();
 #endif
 }
 
@@ -125,6 +135,8 @@ WindowRef AppScreenSaver::getWindow() const
 	return [mImpl getWindow];
 #elif defined( CINDER_MSW )
 	return mImpl->getWindow();
+#elif defined( CINDER_LINUX )
+    return mImpl->getWindow();
 #endif
 }
 
@@ -134,6 +146,8 @@ WindowRef AppScreenSaver::getWindowIndex( size_t index ) const
 	return [mImpl getWindowIndex:index];
 #elif defined( CINDER_MSW )
 	return mImpl->getWindowIndex( index );
+#elif defined( CINDER_LINUX )
+    return mImpl->getWindowIndex( index );
 #endif
 }
 

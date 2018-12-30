@@ -144,6 +144,8 @@ class AppScreenSaver : public App {
 	AppImplCocoaScreenSaver		*mImpl;
 #elif defined( CINDER_MSW )
 	class AppImplMswScreenSaver	*mImpl;
+#elif defined( CINDER_LINUX )
+    class AppImplLinuxScreenSaver *mImpl;
 #endif
 	Settings			mSettings;
 };
